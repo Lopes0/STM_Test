@@ -1,0 +1,1170 @@
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"usart.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.MX_USART3_UART_Init,"ax",%progbits
+  17              		.align	1
+  18              		.global	MX_USART3_UART_Init
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv5-d16
+  25              	MX_USART3_UART_Init:
+  26              	.LFB144:
+  27              		.file 1 "Core/Src/usart.c"
+   1:Core/Src/usart.c **** /**
+   2:Core/Src/usart.c ****   ******************************************************************************
+   3:Core/Src/usart.c ****   * @file    usart.c
+   4:Core/Src/usart.c ****   * @brief   This file provides code for the configuration
+   5:Core/Src/usart.c ****   *          of the USART instances.
+   6:Core/Src/usart.c ****   ******************************************************************************
+   7:Core/Src/usart.c ****   * @attention
+   8:Core/Src/usart.c ****   *
+   9:Core/Src/usart.c ****   * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  10:Core/Src/usart.c ****   * All rights reserved.</center></h2>
+  11:Core/Src/usart.c ****   *
+  12:Core/Src/usart.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Core/Src/usart.c ****   * the "License"; You may not use this file except in compliance with the
+  14:Core/Src/usart.c ****   * License. You may obtain a copy of the License at:
+  15:Core/Src/usart.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Core/Src/usart.c ****   *
+  17:Core/Src/usart.c ****   ******************************************************************************
+  18:Core/Src/usart.c ****   */
+  19:Core/Src/usart.c **** 
+  20:Core/Src/usart.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/usart.c **** #include "usart.h"
+  22:Core/Src/usart.c **** #include <stdio.h>
+  23:Core/Src/usart.c **** 
+  24:Core/Src/usart.c **** /* USER CODE BEGIN 0 */
+  25:Core/Src/usart.c **** 
+  26:Core/Src/usart.c **** //UART3 RX data structures:
+  27:Core/Src/usart.c **** uint8_t UART3Rx_Buffer[128];
+  28:Core/Src/usart.c **** uint8_t UART3Tx_Buffer[128];
+  29:Core/Src/usart.c **** uint8_t Rx_Buffer[128];
+  30:Core/Src/usart.c **** uint8_t Tx_Buffer[128];
+  31:Core/Src/usart.c **** int receive_flag = 0;
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 2
+
+
+  32:Core/Src/usart.c **** int transmit_flag = 0;
+  33:Core/Src/usart.c **** volatile uint8_t UART3Rx_index = 0;
+  34:Core/Src/usart.c **** volatile uint8_t UART3Tx_index = 0;
+  35:Core/Src/usart.c **** volatile uint8_t Rx_index = 0;
+  36:Core/Src/usart.c **** volatile uint8_t Tx_index = 0;
+  37:Core/Src/usart.c **** 
+  38:Core/Src/usart.c **** /* USER CODE END 0 */
+  39:Core/Src/usart.c **** 
+  40:Core/Src/usart.c **** UART_HandleTypeDef huart3;
+  41:Core/Src/usart.c **** 
+  42:Core/Src/usart.c **** /* USART3 init function */
+  43:Core/Src/usart.c **** 
+  44:Core/Src/usart.c **** void MX_USART3_UART_Init(void)
+  45:Core/Src/usart.c **** {
+  28              		.loc 1 45 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  46:Core/Src/usart.c **** 
+  47:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_Init 0 */
+  48:Core/Src/usart.c **** 
+  49:Core/Src/usart.c ****   /* USER CODE END USART3_Init 0 */
+  50:Core/Src/usart.c **** 
+  51:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_Init 1 */
+  52:Core/Src/usart.c **** 
+  53:Core/Src/usart.c ****   /* USER CODE END USART3_Init 1 */
+  54:Core/Src/usart.c ****   huart3.Instance = USART3;
+  37              		.loc 1 54 3 view .LVU1
+  38              		.loc 1 54 19 is_stmt 0 view .LVU2
+  39 0002 0B48     		ldr	r0, .L5
+  40 0004 0B4B     		ldr	r3, .L5+4
+  41 0006 0360     		str	r3, [r0]
+  55:Core/Src/usart.c ****   huart3.Init.BaudRate = 115200;
+  42              		.loc 1 55 3 is_stmt 1 view .LVU3
+  43              		.loc 1 55 24 is_stmt 0 view .LVU4
+  44 0008 4FF4E133 		mov	r3, #115200
+  45 000c 4360     		str	r3, [r0, #4]
+  56:Core/Src/usart.c ****   huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  46              		.loc 1 56 3 is_stmt 1 view .LVU5
+  47              		.loc 1 56 26 is_stmt 0 view .LVU6
+  48 000e 0023     		movs	r3, #0
+  49 0010 8360     		str	r3, [r0, #8]
+  57:Core/Src/usart.c ****   huart3.Init.StopBits = UART_STOPBITS_1;
+  50              		.loc 1 57 3 is_stmt 1 view .LVU7
+  51              		.loc 1 57 24 is_stmt 0 view .LVU8
+  52 0012 C360     		str	r3, [r0, #12]
+  58:Core/Src/usart.c ****   huart3.Init.Parity = UART_PARITY_NONE;
+  53              		.loc 1 58 3 is_stmt 1 view .LVU9
+  54              		.loc 1 58 22 is_stmt 0 view .LVU10
+  55 0014 0361     		str	r3, [r0, #16]
+  59:Core/Src/usart.c ****   huart3.Init.Mode = UART_MODE_TX_RX;
+  56              		.loc 1 59 3 is_stmt 1 view .LVU11
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 3
+
+
+  57              		.loc 1 59 20 is_stmt 0 view .LVU12
+  58 0016 0C22     		movs	r2, #12
+  59 0018 4261     		str	r2, [r0, #20]
+  60:Core/Src/usart.c ****   huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  60              		.loc 1 60 3 is_stmt 1 view .LVU13
+  61              		.loc 1 60 25 is_stmt 0 view .LVU14
+  62 001a 8361     		str	r3, [r0, #24]
+  61:Core/Src/usart.c ****   huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+  63              		.loc 1 61 3 is_stmt 1 view .LVU15
+  64              		.loc 1 61 28 is_stmt 0 view .LVU16
+  65 001c C361     		str	r3, [r0, #28]
+  62:Core/Src/usart.c ****   huart3.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  66              		.loc 1 62 3 is_stmt 1 view .LVU17
+  67              		.loc 1 62 30 is_stmt 0 view .LVU18
+  68 001e 0362     		str	r3, [r0, #32]
+  63:Core/Src/usart.c ****   huart3.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  69              		.loc 1 63 3 is_stmt 1 view .LVU19
+  70              		.loc 1 63 38 is_stmt 0 view .LVU20
+  71 0020 4362     		str	r3, [r0, #36]
+  64:Core/Src/usart.c ****   if (HAL_UART_Init(&huart3) != HAL_OK)
+  72              		.loc 1 64 3 is_stmt 1 view .LVU21
+  73              		.loc 1 64 7 is_stmt 0 view .LVU22
+  74 0022 FFF7FEFF 		bl	HAL_UART_Init
+  75              	.LVL0:
+  76              		.loc 1 64 6 view .LVU23
+  77 0026 00B9     		cbnz	r0, .L4
+  78              	.L1:
+  65:Core/Src/usart.c ****   {
+  66:Core/Src/usart.c ****     Error_Handler();
+  67:Core/Src/usart.c ****   }
+  68:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_Init 2 */
+  69:Core/Src/usart.c **** 
+  70:Core/Src/usart.c ****   /* USER CODE END USART3_Init 2 */
+  71:Core/Src/usart.c **** 
+  72:Core/Src/usart.c **** }
+  79              		.loc 1 72 1 view .LVU24
+  80 0028 08BD     		pop	{r3, pc}
+  81              	.L4:
+  66:Core/Src/usart.c ****   }
+  82              		.loc 1 66 5 is_stmt 1 view .LVU25
+  83 002a FFF7FEFF 		bl	Error_Handler
+  84              	.LVL1:
+  85              		.loc 1 72 1 is_stmt 0 view .LVU26
+  86 002e FBE7     		b	.L1
+  87              	.L6:
+  88              		.align	2
+  89              	.L5:
+  90 0030 00000000 		.word	.LANCHOR0
+  91 0034 00480040 		.word	1073760256
+  92              		.cfi_endproc
+  93              	.LFE144:
+  95              		.section	.text.HAL_UART_MspInit,"ax",%progbits
+  96              		.align	1
+  97              		.global	HAL_UART_MspInit
+  98              		.syntax unified
+  99              		.thumb
+ 100              		.thumb_func
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 4
+
+
+ 101              		.fpu fpv5-d16
+ 103              	HAL_UART_MspInit:
+ 104              	.LVL2:
+ 105              	.LFB145:
+  73:Core/Src/usart.c **** 
+  74:Core/Src/usart.c **** void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
+  75:Core/Src/usart.c **** {
+ 106              		.loc 1 75 1 is_stmt 1 view -0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 32
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110              		.loc 1 75 1 is_stmt 0 view .LVU28
+ 111 0000 00B5     		push	{lr}
+ 112              	.LCFI1:
+ 113              		.cfi_def_cfa_offset 4
+ 114              		.cfi_offset 14, -4
+ 115 0002 89B0     		sub	sp, sp, #36
+ 116              	.LCFI2:
+ 117              		.cfi_def_cfa_offset 40
+  76:Core/Src/usart.c **** 
+  77:Core/Src/usart.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 118              		.loc 1 77 3 is_stmt 1 view .LVU29
+ 119              		.loc 1 77 20 is_stmt 0 view .LVU30
+ 120 0004 0023     		movs	r3, #0
+ 121 0006 0393     		str	r3, [sp, #12]
+ 122 0008 0493     		str	r3, [sp, #16]
+ 123 000a 0593     		str	r3, [sp, #20]
+ 124 000c 0693     		str	r3, [sp, #24]
+ 125 000e 0793     		str	r3, [sp, #28]
+  78:Core/Src/usart.c ****   if(uartHandle->Instance==USART3)
+ 126              		.loc 1 78 3 is_stmt 1 view .LVU31
+ 127              		.loc 1 78 16 is_stmt 0 view .LVU32
+ 128 0010 0268     		ldr	r2, [r0]
+ 129              		.loc 1 78 5 view .LVU33
+ 130 0012 184B     		ldr	r3, .L11
+ 131 0014 9A42     		cmp	r2, r3
+ 132 0016 02D0     		beq	.L10
+ 133              	.LVL3:
+ 134              	.L7:
+  79:Core/Src/usart.c ****   {
+  80:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_MspInit 0 */
+  81:Core/Src/usart.c **** 
+  82:Core/Src/usart.c ****   /* USER CODE END USART3_MspInit 0 */
+  83:Core/Src/usart.c ****     /* USART3 clock enable */
+  84:Core/Src/usart.c ****     __HAL_RCC_USART3_CLK_ENABLE();
+  85:Core/Src/usart.c **** 
+  86:Core/Src/usart.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
+  87:Core/Src/usart.c ****     /**USART3 GPIO Configuration
+  88:Core/Src/usart.c ****     PD8     ------> USART3_TX
+  89:Core/Src/usart.c ****     PD9     ------> USART3_RX
+  90:Core/Src/usart.c ****     */
+  91:Core/Src/usart.c ****     GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+  92:Core/Src/usart.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  93:Core/Src/usart.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+  94:Core/Src/usart.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  95:Core/Src/usart.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+  96:Core/Src/usart.c ****     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 5
+
+
+  97:Core/Src/usart.c **** 
+  98:Core/Src/usart.c ****     /* USART3 interrupt Init */
+  99:Core/Src/usart.c ****     HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
+ 100:Core/Src/usart.c ****     HAL_NVIC_EnableIRQ(USART3_IRQn);
+ 101:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_MspInit 1 */
+ 102:Core/Src/usart.c **** 
+ 103:Core/Src/usart.c ****   /* USER CODE END USART3_MspInit 1 */
+ 104:Core/Src/usart.c ****   }
+ 105:Core/Src/usart.c **** }
+ 135              		.loc 1 105 1 view .LVU34
+ 136 0018 09B0     		add	sp, sp, #36
+ 137              	.LCFI3:
+ 138              		.cfi_remember_state
+ 139              		.cfi_def_cfa_offset 4
+ 140              		@ sp needed
+ 141 001a 5DF804FB 		ldr	pc, [sp], #4
+ 142              	.LVL4:
+ 143              	.L10:
+ 144              	.LCFI4:
+ 145              		.cfi_restore_state
+  84:Core/Src/usart.c **** 
+ 146              		.loc 1 84 5 is_stmt 1 view .LVU35
+ 147              	.LBB2:
+  84:Core/Src/usart.c **** 
+ 148              		.loc 1 84 5 view .LVU36
+  84:Core/Src/usart.c **** 
+ 149              		.loc 1 84 5 view .LVU37
+ 150 001e 03F5F833 		add	r3, r3, #126976
+ 151 0022 1A6C     		ldr	r2, [r3, #64]
+ 152 0024 42F48022 		orr	r2, r2, #262144
+ 153 0028 1A64     		str	r2, [r3, #64]
+  84:Core/Src/usart.c **** 
+ 154              		.loc 1 84 5 view .LVU38
+ 155 002a 1A6C     		ldr	r2, [r3, #64]
+ 156 002c 02F48022 		and	r2, r2, #262144
+ 157 0030 0192     		str	r2, [sp, #4]
+  84:Core/Src/usart.c **** 
+ 158              		.loc 1 84 5 view .LVU39
+ 159 0032 019A     		ldr	r2, [sp, #4]
+ 160              	.LBE2:
+  84:Core/Src/usart.c **** 
+ 161              		.loc 1 84 5 view .LVU40
+  86:Core/Src/usart.c ****     /**USART3 GPIO Configuration
+ 162              		.loc 1 86 5 view .LVU41
+ 163              	.LBB3:
+  86:Core/Src/usart.c ****     /**USART3 GPIO Configuration
+ 164              		.loc 1 86 5 view .LVU42
+  86:Core/Src/usart.c ****     /**USART3 GPIO Configuration
+ 165              		.loc 1 86 5 view .LVU43
+ 166 0034 1A6B     		ldr	r2, [r3, #48]
+ 167 0036 42F00802 		orr	r2, r2, #8
+ 168 003a 1A63     		str	r2, [r3, #48]
+  86:Core/Src/usart.c ****     /**USART3 GPIO Configuration
+ 169              		.loc 1 86 5 view .LVU44
+ 170 003c 1B6B     		ldr	r3, [r3, #48]
+ 171 003e 03F00803 		and	r3, r3, #8
+ 172 0042 0293     		str	r3, [sp, #8]
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 6
+
+
+  86:Core/Src/usart.c ****     /**USART3 GPIO Configuration
+ 173              		.loc 1 86 5 view .LVU45
+ 174 0044 029B     		ldr	r3, [sp, #8]
+ 175              	.LBE3:
+  86:Core/Src/usart.c ****     /**USART3 GPIO Configuration
+ 176              		.loc 1 86 5 view .LVU46
+  91:Core/Src/usart.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 177              		.loc 1 91 5 view .LVU47
+  91:Core/Src/usart.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 178              		.loc 1 91 25 is_stmt 0 view .LVU48
+ 179 0046 4FF44073 		mov	r3, #768
+ 180 004a 0393     		str	r3, [sp, #12]
+  92:Core/Src/usart.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 181              		.loc 1 92 5 is_stmt 1 view .LVU49
+  92:Core/Src/usart.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 182              		.loc 1 92 26 is_stmt 0 view .LVU50
+ 183 004c 0223     		movs	r3, #2
+ 184 004e 0493     		str	r3, [sp, #16]
+  93:Core/Src/usart.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 185              		.loc 1 93 5 is_stmt 1 view .LVU51
+  94:Core/Src/usart.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+ 186              		.loc 1 94 5 view .LVU52
+  94:Core/Src/usart.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+ 187              		.loc 1 94 27 is_stmt 0 view .LVU53
+ 188 0050 0323     		movs	r3, #3
+ 189 0052 0693     		str	r3, [sp, #24]
+  95:Core/Src/usart.c ****     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ 190              		.loc 1 95 5 is_stmt 1 view .LVU54
+  95:Core/Src/usart.c ****     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ 191              		.loc 1 95 31 is_stmt 0 view .LVU55
+ 192 0054 0723     		movs	r3, #7
+ 193 0056 0793     		str	r3, [sp, #28]
+  96:Core/Src/usart.c **** 
+ 194              		.loc 1 96 5 is_stmt 1 view .LVU56
+ 195 0058 03A9     		add	r1, sp, #12
+ 196 005a 0748     		ldr	r0, .L11+4
+ 197              	.LVL5:
+  96:Core/Src/usart.c **** 
+ 198              		.loc 1 96 5 is_stmt 0 view .LVU57
+ 199 005c FFF7FEFF 		bl	HAL_GPIO_Init
+ 200              	.LVL6:
+  99:Core/Src/usart.c ****     HAL_NVIC_EnableIRQ(USART3_IRQn);
+ 201              		.loc 1 99 5 is_stmt 1 view .LVU58
+ 202 0060 0022     		movs	r2, #0
+ 203 0062 1146     		mov	r1, r2
+ 204 0064 2720     		movs	r0, #39
+ 205 0066 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 206              	.LVL7:
+ 100:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_MspInit 1 */
+ 207              		.loc 1 100 5 view .LVU59
+ 208 006a 2720     		movs	r0, #39
+ 209 006c FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 210              	.LVL8:
+ 211              		.loc 1 105 1 is_stmt 0 view .LVU60
+ 212 0070 D2E7     		b	.L7
+ 213              	.L12:
+ 214 0072 00BF     		.align	2
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 7
+
+
+ 215              	.L11:
+ 216 0074 00480040 		.word	1073760256
+ 217 0078 000C0240 		.word	1073875968
+ 218              		.cfi_endproc
+ 219              	.LFE145:
+ 221              		.section	.text.HAL_UART_MspDeInit,"ax",%progbits
+ 222              		.align	1
+ 223              		.global	HAL_UART_MspDeInit
+ 224              		.syntax unified
+ 225              		.thumb
+ 226              		.thumb_func
+ 227              		.fpu fpv5-d16
+ 229              	HAL_UART_MspDeInit:
+ 230              	.LVL9:
+ 231              	.LFB146:
+ 106:Core/Src/usart.c **** 
+ 107:Core/Src/usart.c **** void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
+ 108:Core/Src/usart.c **** {
+ 232              		.loc 1 108 1 is_stmt 1 view -0
+ 233              		.cfi_startproc
+ 234              		@ args = 0, pretend = 0, frame = 0
+ 235              		@ frame_needed = 0, uses_anonymous_args = 0
+ 236              		.loc 1 108 1 is_stmt 0 view .LVU62
+ 237 0000 08B5     		push	{r3, lr}
+ 238              	.LCFI5:
+ 239              		.cfi_def_cfa_offset 8
+ 240              		.cfi_offset 3, -8
+ 241              		.cfi_offset 14, -4
+ 109:Core/Src/usart.c **** 
+ 110:Core/Src/usart.c ****   if(uartHandle->Instance==USART3)
+ 242              		.loc 1 110 3 is_stmt 1 view .LVU63
+ 243              		.loc 1 110 16 is_stmt 0 view .LVU64
+ 244 0002 0268     		ldr	r2, [r0]
+ 245              		.loc 1 110 5 view .LVU65
+ 246 0004 084B     		ldr	r3, .L17
+ 247 0006 9A42     		cmp	r2, r3
+ 248 0008 00D0     		beq	.L16
+ 249              	.LVL10:
+ 250              	.L13:
+ 111:Core/Src/usart.c ****   {
+ 112:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_MspDeInit 0 */
+ 113:Core/Src/usart.c **** 
+ 114:Core/Src/usart.c ****   /* USER CODE END USART3_MspDeInit 0 */
+ 115:Core/Src/usart.c ****     /* Peripheral clock disable */
+ 116:Core/Src/usart.c ****     __HAL_RCC_USART3_CLK_DISABLE();
+ 117:Core/Src/usart.c **** 
+ 118:Core/Src/usart.c ****     /**USART3 GPIO Configuration
+ 119:Core/Src/usart.c ****     PD8     ------> USART3_TX
+ 120:Core/Src/usart.c ****     PD9     ------> USART3_RX
+ 121:Core/Src/usart.c ****     */
+ 122:Core/Src/usart.c ****     HAL_GPIO_DeInit(GPIOD, GPIO_PIN_8|GPIO_PIN_9);
+ 123:Core/Src/usart.c **** 
+ 124:Core/Src/usart.c ****     /* USART3 interrupt Deinit */
+ 125:Core/Src/usart.c ****     HAL_NVIC_DisableIRQ(USART3_IRQn);
+ 126:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_MspDeInit 1 */
+ 127:Core/Src/usart.c **** 
+ 128:Core/Src/usart.c ****   /* USER CODE END USART3_MspDeInit 1 */
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 8
+
+
+ 129:Core/Src/usart.c ****   }
+ 130:Core/Src/usart.c **** }
+ 251              		.loc 1 130 1 view .LVU66
+ 252 000a 08BD     		pop	{r3, pc}
+ 253              	.LVL11:
+ 254              	.L16:
+ 116:Core/Src/usart.c **** 
+ 255              		.loc 1 116 5 is_stmt 1 view .LVU67
+ 256 000c 074A     		ldr	r2, .L17+4
+ 257 000e 136C     		ldr	r3, [r2, #64]
+ 258 0010 23F48023 		bic	r3, r3, #262144
+ 259 0014 1364     		str	r3, [r2, #64]
+ 122:Core/Src/usart.c **** 
+ 260              		.loc 1 122 5 view .LVU68
+ 261 0016 4FF44071 		mov	r1, #768
+ 262 001a 0548     		ldr	r0, .L17+8
+ 263              	.LVL12:
+ 122:Core/Src/usart.c **** 
+ 264              		.loc 1 122 5 is_stmt 0 view .LVU69
+ 265 001c FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 266              	.LVL13:
+ 125:Core/Src/usart.c ****   /* USER CODE BEGIN USART3_MspDeInit 1 */
+ 267              		.loc 1 125 5 is_stmt 1 view .LVU70
+ 268 0020 2720     		movs	r0, #39
+ 269 0022 FFF7FEFF 		bl	HAL_NVIC_DisableIRQ
+ 270              	.LVL14:
+ 271              		.loc 1 130 1 is_stmt 0 view .LVU71
+ 272 0026 F0E7     		b	.L13
+ 273              	.L18:
+ 274              		.align	2
+ 275              	.L17:
+ 276 0028 00480040 		.word	1073760256
+ 277 002c 00380240 		.word	1073887232
+ 278 0030 000C0240 		.word	1073875968
+ 279              		.cfi_endproc
+ 280              	.LFE146:
+ 282              		.section	.text.init_UART3Receive,"ax",%progbits
+ 283              		.align	1
+ 284              		.global	init_UART3Receive
+ 285              		.syntax unified
+ 286              		.thumb
+ 287              		.thumb_func
+ 288              		.fpu fpv5-d16
+ 290              	init_UART3Receive:
+ 291              	.LFB147:
+ 131:Core/Src/usart.c **** 
+ 132:Core/Src/usart.c **** /* USER CODE BEGIN 1 */
+ 133:Core/Src/usart.c **** //ter atenção à itnrodução a este intervalo
+ 134:Core/Src/usart.c **** //FIFO, com apontador [head & tail]
+ 135:Core/Src/usart.c **** void init_UART3Receive(void) {
+ 292              		.loc 1 135 30 is_stmt 1 view -0
+ 293              		.cfi_startproc
+ 294              		@ args = 0, pretend = 0, frame = 0
+ 295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 296 0000 08B5     		push	{r3, lr}
+ 297              	.LCFI6:
+ 298              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 9
+
+
+ 299              		.cfi_offset 3, -8
+ 300              		.cfi_offset 14, -4
+ 136:Core/Src/usart.c **** 	//set the interrupt for UART3 Rx
+ 137:Core/Src/usart.c **** 	HAL_UART_Receive_IT(&huart3, &UART3Rx_Buffer [UART3Rx_index],1);
+ 301              		.loc 1 137 2 view .LVU73
+ 302              		.loc 1 137 47 is_stmt 0 view .LVU74
+ 303 0002 044B     		ldr	r3, .L21
+ 304 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 305              		.loc 1 137 2 view .LVU75
+ 306 0006 0122     		movs	r2, #1
+ 307 0008 0349     		ldr	r1, .L21+4
+ 308 000a 1944     		add	r1, r1, r3
+ 309 000c 0348     		ldr	r0, .L21+8
+ 310 000e FFF7FEFF 		bl	HAL_UART_Receive_IT
+ 311              	.LVL15:
+ 138:Core/Src/usart.c **** }
+ 312              		.loc 1 138 1 view .LVU76
+ 313 0012 08BD     		pop	{r3, pc}
+ 314              	.L22:
+ 315              		.align	2
+ 316              	.L21:
+ 317 0014 00000000 		.word	.LANCHOR1
+ 318 0018 00000000 		.word	.LANCHOR2
+ 319 001c 00000000 		.word	.LANCHOR0
+ 320              		.cfi_endproc
+ 321              	.LFE147:
+ 323              		.section	.text.init_UART3Transmit,"ax",%progbits
+ 324              		.align	1
+ 325              		.global	init_UART3Transmit
+ 326              		.syntax unified
+ 327              		.thumb
+ 328              		.thumb_func
+ 329              		.fpu fpv5-d16
+ 331              	init_UART3Transmit:
+ 332              	.LFB148:
+ 139:Core/Src/usart.c **** 
+ 140:Core/Src/usart.c **** void init_UART3Transmit(void) {
+ 333              		.loc 1 140 31 is_stmt 1 view -0
+ 334              		.cfi_startproc
+ 335              		@ args = 0, pretend = 0, frame = 0
+ 336              		@ frame_needed = 0, uses_anonymous_args = 0
+ 337 0000 08B5     		push	{r3, lr}
+ 338              	.LCFI7:
+ 339              		.cfi_def_cfa_offset 8
+ 340              		.cfi_offset 3, -8
+ 341              		.cfi_offset 14, -4
+ 141:Core/Src/usart.c **** 	//set the interrupt for UART3 Rx
+ 142:Core/Src/usart.c **** 	HAL_UART_Transmit_IT(&huart3, &UART3Rx_Buffer [UART3Rx_index],1);
+ 342              		.loc 1 142 2 view .LVU78
+ 343              		.loc 1 142 48 is_stmt 0 view .LVU79
+ 344 0002 044B     		ldr	r3, .L25
+ 345 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 346              		.loc 1 142 2 view .LVU80
+ 347 0006 0122     		movs	r2, #1
+ 348 0008 0349     		ldr	r1, .L25+4
+ 349 000a 1944     		add	r1, r1, r3
+ 350 000c 0348     		ldr	r0, .L25+8
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 10
+
+
+ 351 000e FFF7FEFF 		bl	HAL_UART_Transmit_IT
+ 352              	.LVL16:
+ 143:Core/Src/usart.c **** }
+ 353              		.loc 1 143 1 view .LVU81
+ 354 0012 08BD     		pop	{r3, pc}
+ 355              	.L26:
+ 356              		.align	2
+ 357              	.L25:
+ 358 0014 00000000 		.word	.LANCHOR1
+ 359 0018 00000000 		.word	.LANCHOR2
+ 360 001c 00000000 		.word	.LANCHOR0
+ 361              		.cfi_endproc
+ 362              	.LFE148:
+ 364              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
+ 365              		.align	1
+ 366              		.global	HAL_UART_RxCpltCallback
+ 367              		.syntax unified
+ 368              		.thumb
+ 369              		.thumb_func
+ 370              		.fpu fpv5-d16
+ 372              	HAL_UART_RxCpltCallback:
+ 373              	.LVL17:
+ 374              	.LFB149:
+ 144:Core/Src/usart.c **** 
+ 145:Core/Src/usart.c **** //implementation of UART ISR
+ 146:Core/Src/usart.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
+ 375              		.loc 1 146 57 is_stmt 1 view -0
+ 376              		.cfi_startproc
+ 377              		@ args = 0, pretend = 0, frame = 0
+ 378              		@ frame_needed = 0, uses_anonymous_args = 0
+ 379              		.loc 1 146 57 is_stmt 0 view .LVU83
+ 380 0000 08B5     		push	{r3, lr}
+ 381              	.LCFI8:
+ 382              		.cfi_def_cfa_offset 8
+ 383              		.cfi_offset 3, -8
+ 384              		.cfi_offset 14, -4
+ 147:Core/Src/usart.c **** 	if (huart->Instance == USART3) {
+ 385              		.loc 1 147 2 is_stmt 1 view .LVU84
+ 386              		.loc 1 147 11 is_stmt 0 view .LVU85
+ 387 0002 0268     		ldr	r2, [r0]
+ 388              		.loc 1 147 5 view .LVU86
+ 389 0004 0A4B     		ldr	r3, .L31
+ 390 0006 9A42     		cmp	r2, r3
+ 391 0008 00D0     		beq	.L30
+ 392              	.LVL18:
+ 393              	.L27:
+ 148:Core/Src/usart.c **** 		UART3Rx_index++;
+ 149:Core/Src/usart.c **** 		UART3Rx_index &= ~(1<<7); //keep index inside the limits
+ 150:Core/Src/usart.c **** 		//set the interrupt for UART3 Rx again
+ 151:Core/Src/usart.c **** 		HAL_UART_Receive_IT(&huart3, &UART3Rx_Buffer[UART3Rx_index],1);
+ 152:Core/Src/usart.c **** 	}
+ 153:Core/Src/usart.c **** }
+ 394              		.loc 1 153 1 view .LVU87
+ 395 000a 08BD     		pop	{r3, pc}
+ 396              	.LVL19:
+ 397              	.L30:
+ 148:Core/Src/usart.c **** 		UART3Rx_index++;
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 11
+
+
+ 398              		.loc 1 148 3 is_stmt 1 view .LVU88
+ 148:Core/Src/usart.c **** 		UART3Rx_index++;
+ 399              		.loc 1 148 16 is_stmt 0 view .LVU89
+ 400 000c 094B     		ldr	r3, .L31+4
+ 401 000e 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 402 0010 0132     		adds	r2, r2, #1
+ 403 0012 D2B2     		uxtb	r2, r2
+ 404 0014 1A70     		strb	r2, [r3]
+ 149:Core/Src/usart.c **** 		//set the interrupt for UART3 Rx again
+ 405              		.loc 1 149 3 is_stmt 1 view .LVU90
+ 149:Core/Src/usart.c **** 		//set the interrupt for UART3 Rx again
+ 406              		.loc 1 149 17 is_stmt 0 view .LVU91
+ 407 0016 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 408 0018 02F07F02 		and	r2, r2, #127
+ 409 001c 1A70     		strb	r2, [r3]
+ 151:Core/Src/usart.c **** 	}
+ 410              		.loc 1 151 3 is_stmt 1 view .LVU92
+ 151:Core/Src/usart.c **** 	}
+ 411              		.loc 1 151 47 is_stmt 0 view .LVU93
+ 412 001e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 151:Core/Src/usart.c **** 	}
+ 413              		.loc 1 151 3 view .LVU94
+ 414 0020 0122     		movs	r2, #1
+ 415 0022 0549     		ldr	r1, .L31+8
+ 416 0024 1944     		add	r1, r1, r3
+ 417 0026 0548     		ldr	r0, .L31+12
+ 418              	.LVL20:
+ 151:Core/Src/usart.c **** 	}
+ 419              		.loc 1 151 3 view .LVU95
+ 420 0028 FFF7FEFF 		bl	HAL_UART_Receive_IT
+ 421              	.LVL21:
+ 422              		.loc 1 153 1 view .LVU96
+ 423 002c EDE7     		b	.L27
+ 424              	.L32:
+ 425 002e 00BF     		.align	2
+ 426              	.L31:
+ 427 0030 00480040 		.word	1073760256
+ 428 0034 00000000 		.word	.LANCHOR1
+ 429 0038 00000000 		.word	.LANCHOR2
+ 430 003c 00000000 		.word	.LANCHOR0
+ 431              		.cfi_endproc
+ 432              	.LFE149:
+ 434              		.section	.text.HAL_UART_TxCpltCallback,"ax",%progbits
+ 435              		.align	1
+ 436              		.global	HAL_UART_TxCpltCallback
+ 437              		.syntax unified
+ 438              		.thumb
+ 439              		.thumb_func
+ 440              		.fpu fpv5-d16
+ 442              	HAL_UART_TxCpltCallback:
+ 443              	.LVL22:
+ 444              	.LFB150:
+ 154:Core/Src/usart.c **** 
+ 155:Core/Src/usart.c **** void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart) {
+ 445              		.loc 1 155 57 is_stmt 1 view -0
+ 446              		.cfi_startproc
+ 447              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 12
+
+
+ 448              		@ frame_needed = 0, uses_anonymous_args = 0
+ 449              		.loc 1 155 57 is_stmt 0 view .LVU98
+ 450 0000 08B5     		push	{r3, lr}
+ 451              	.LCFI9:
+ 452              		.cfi_def_cfa_offset 8
+ 453              		.cfi_offset 3, -8
+ 454              		.cfi_offset 14, -4
+ 156:Core/Src/usart.c **** 	if (huart->Instance == USART3) {
+ 455              		.loc 1 156 2 is_stmt 1 view .LVU99
+ 456              		.loc 1 156 11 is_stmt 0 view .LVU100
+ 457 0002 0268     		ldr	r2, [r0]
+ 458              		.loc 1 156 5 view .LVU101
+ 459 0004 0A4B     		ldr	r3, .L37
+ 460 0006 9A42     		cmp	r2, r3
+ 461 0008 00D0     		beq	.L36
+ 462              	.LVL23:
+ 463              	.L33:
+ 157:Core/Src/usart.c **** 		UART3Tx_index++;
+ 158:Core/Src/usart.c **** 		UART3Tx_index &= ~(1<<7); //keep index inside the limits
+ 159:Core/Src/usart.c **** 		//set the interrupt for UART3 Rx again
+ 160:Core/Src/usart.c **** 		HAL_UART_Transmit_IT(&huart3, &UART3Tx_Buffer[UART3Tx_index],1);
+ 161:Core/Src/usart.c **** 	}
+ 162:Core/Src/usart.c **** }
+ 464              		.loc 1 162 1 view .LVU102
+ 465 000a 08BD     		pop	{r3, pc}
+ 466              	.LVL24:
+ 467              	.L36:
+ 157:Core/Src/usart.c **** 		UART3Tx_index++;
+ 468              		.loc 1 157 3 is_stmt 1 view .LVU103
+ 157:Core/Src/usart.c **** 		UART3Tx_index++;
+ 469              		.loc 1 157 16 is_stmt 0 view .LVU104
+ 470 000c 094B     		ldr	r3, .L37+4
+ 471 000e 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 472 0010 0132     		adds	r2, r2, #1
+ 473 0012 D2B2     		uxtb	r2, r2
+ 474 0014 1A70     		strb	r2, [r3]
+ 158:Core/Src/usart.c **** 		//set the interrupt for UART3 Rx again
+ 475              		.loc 1 158 3 is_stmt 1 view .LVU105
+ 158:Core/Src/usart.c **** 		//set the interrupt for UART3 Rx again
+ 476              		.loc 1 158 17 is_stmt 0 view .LVU106
+ 477 0016 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 478 0018 02F07F02 		and	r2, r2, #127
+ 479 001c 1A70     		strb	r2, [r3]
+ 160:Core/Src/usart.c **** 	}
+ 480              		.loc 1 160 3 is_stmt 1 view .LVU107
+ 160:Core/Src/usart.c **** 	}
+ 481              		.loc 1 160 48 is_stmt 0 view .LVU108
+ 482 001e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 160:Core/Src/usart.c **** 	}
+ 483              		.loc 1 160 3 view .LVU109
+ 484 0020 0122     		movs	r2, #1
+ 485 0022 0549     		ldr	r1, .L37+8
+ 486 0024 1944     		add	r1, r1, r3
+ 487 0026 0548     		ldr	r0, .L37+12
+ 488              	.LVL25:
+ 160:Core/Src/usart.c **** 	}
+ 489              		.loc 1 160 3 view .LVU110
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 13
+
+
+ 490 0028 FFF7FEFF 		bl	HAL_UART_Transmit_IT
+ 491              	.LVL26:
+ 492              		.loc 1 162 1 view .LVU111
+ 493 002c EDE7     		b	.L33
+ 494              	.L38:
+ 495 002e 00BF     		.align	2
+ 496              	.L37:
+ 497 0030 00480040 		.word	1073760256
+ 498 0034 00000000 		.word	.LANCHOR3
+ 499 0038 00000000 		.word	.LANCHOR4
+ 500 003c 00000000 		.word	.LANCHOR0
+ 501              		.cfi_endproc
+ 502              	.LFE150:
+ 504              		.section	.text.newMessage,"ax",%progbits
+ 505              		.align	1
+ 506              		.global	newMessage
+ 507              		.syntax unified
+ 508              		.thumb
+ 509              		.thumb_func
+ 510              		.fpu fpv5-d16
+ 512              	newMessage:
+ 513              	.LFB151:
+ 163:Core/Src/usart.c **** 
+ 164:Core/Src/usart.c **** void newMessage() {
+ 514              		.loc 1 164 19 is_stmt 1 view -0
+ 515              		.cfi_startproc
+ 516              		@ args = 0, pretend = 0, frame = 0
+ 517              		@ frame_needed = 0, uses_anonymous_args = 0
+ 518              		@ link register save eliminated.
+ 165:Core/Src/usart.c **** 	static int local_index = 0;
+ 519              		.loc 1 165 2 view .LVU113
+ 166:Core/Src/usart.c **** 	int out_index = 0;
+ 520              		.loc 1 166 2 view .LVU114
+ 521              	.LVL27:
+ 167:Core/Src/usart.c **** 	while (local_index != UART3Rx_index) {
+ 522              		.loc 1 167 2 view .LVU115
+ 166:Core/Src/usart.c **** 	int out_index = 0;
+ 523              		.loc 1 166 6 is_stmt 0 view .LVU116
+ 524 0000 0021     		movs	r1, #0
+ 525              		.loc 1 167 8 view .LVU117
+ 526 0002 0DE0     		b	.L40
+ 527              	.LVL28:
+ 528              	.L41:
+ 168:Core/Src/usart.c **** 		Rx_Buffer[out_index] = UART3Rx_Buffer[local_index];
+ 529              		.loc 1 168 3 is_stmt 1 view .LVU118
+ 530              		.loc 1 168 40 is_stmt 0 view .LVU119
+ 531 0004 0C4A     		ldr	r2, .L42
+ 532 0006 D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 533              		.loc 1 168 24 view .LVU120
+ 534 0008 0C4A     		ldr	r2, .L42+4
+ 535 000a 5054     		strb	r0, [r2, r1]
+ 169:Core/Src/usart.c **** 		out_index++;
+ 536              		.loc 1 169 3 is_stmt 1 view .LVU121
+ 537              		.loc 1 169 12 is_stmt 0 view .LVU122
+ 538 000c 0131     		adds	r1, r1, #1
+ 539              	.LVL29:
+ 170:Core/Src/usart.c **** 		local_index++;
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 14
+
+
+ 540              		.loc 1 170 3 is_stmt 1 view .LVU123
+ 541              		.loc 1 170 14 is_stmt 0 view .LVU124
+ 542 000e 0133     		adds	r3, r3, #1
+ 543 0010 0B4A     		ldr	r2, .L42+8
+ 544 0012 1360     		str	r3, [r2]
+ 171:Core/Src/usart.c **** 		local_index &= ~(1<<7);
+ 545              		.loc 1 171 3 is_stmt 1 view .LVU125
+ 546              		.loc 1 171 15 is_stmt 0 view .LVU126
+ 547 0014 23F08003 		bic	r3, r3, #128
+ 548 0018 1360     		str	r3, [r2]
+ 172:Core/Src/usart.c **** 		receive_flag = 1;
+ 549              		.loc 1 172 3 is_stmt 1 view .LVU127
+ 550              		.loc 1 172 16 is_stmt 0 view .LVU128
+ 551 001a 0A4B     		ldr	r3, .L42+12
+ 552 001c 0122     		movs	r2, #1
+ 553 001e 1A60     		str	r2, [r3]
+ 554              	.LVL30:
+ 555              	.L40:
+ 167:Core/Src/usart.c **** 		Rx_Buffer[out_index] = UART3Rx_Buffer[local_index];
+ 556              		.loc 1 167 8 is_stmt 1 view .LVU129
+ 167:Core/Src/usart.c **** 		Rx_Buffer[out_index] = UART3Rx_Buffer[local_index];
+ 557              		.loc 1 167 21 is_stmt 0 view .LVU130
+ 558 0020 094B     		ldr	r3, .L42+16
+ 559 0022 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 560 0024 D2B2     		uxtb	r2, r2
+ 561 0026 064B     		ldr	r3, .L42+8
+ 562 0028 1B68     		ldr	r3, [r3]
+ 167:Core/Src/usart.c **** 		Rx_Buffer[out_index] = UART3Rx_Buffer[local_index];
+ 563              		.loc 1 167 8 view .LVU131
+ 564 002a 9A42     		cmp	r2, r3
+ 565 002c EAD1     		bne	.L41
+ 173:Core/Src/usart.c **** 	}
+ 174:Core/Src/usart.c **** 	Rx_Buffer[out_index] = '\0';
+ 566              		.loc 1 174 2 is_stmt 1 view .LVU132
+ 567              		.loc 1 174 23 is_stmt 0 view .LVU133
+ 568 002e 034B     		ldr	r3, .L42+4
+ 569 0030 0022     		movs	r2, #0
+ 570 0032 5A54     		strb	r2, [r3, r1]
+ 175:Core/Src/usart.c **** }
+ 571              		.loc 1 175 1 view .LVU134
+ 572 0034 7047     		bx	lr
+ 573              	.L43:
+ 574 0036 00BF     		.align	2
+ 575              	.L42:
+ 576 0038 00000000 		.word	.LANCHOR2
+ 577 003c 00000000 		.word	.LANCHOR5
+ 578 0040 00000000 		.word	.LANCHOR6
+ 579 0044 00000000 		.word	.LANCHOR7
+ 580 0048 00000000 		.word	.LANCHOR1
+ 581              		.cfi_endproc
+ 582              	.LFE151:
+ 584              		.section	.text.transmitMessage,"ax",%progbits
+ 585              		.align	1
+ 586              		.global	transmitMessage
+ 587              		.syntax unified
+ 588              		.thumb
+ 589              		.thumb_func
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 15
+
+
+ 590              		.fpu fpv5-d16
+ 592              	transmitMessage:
+ 593              	.LFB152:
+ 176:Core/Src/usart.c **** 
+ 177:Core/Src/usart.c **** void transmitMessage() {
+ 594              		.loc 1 177 24 is_stmt 1 view -0
+ 595              		.cfi_startproc
+ 596              		@ args = 0, pretend = 0, frame = 0
+ 597              		@ frame_needed = 0, uses_anonymous_args = 0
+ 598              		@ link register save eliminated.
+ 178:Core/Src/usart.c **** 	static int local_index = 0;
+ 599              		.loc 1 178 2 view .LVU136
+ 179:Core/Src/usart.c **** 	int out_index = 0;
+ 600              		.loc 1 179 2 view .LVU137
+ 601              	.LVL31:
+ 180:Core/Src/usart.c **** 	while (local_index != Tx_index) {
+ 602              		.loc 1 180 2 view .LVU138
+ 179:Core/Src/usart.c **** 	int out_index = 0;
+ 603              		.loc 1 179 6 is_stmt 0 view .LVU139
+ 604 0000 0021     		movs	r1, #0
+ 605              		.loc 1 180 8 view .LVU140
+ 606 0002 0AE0     		b	.L45
+ 607              	.LVL32:
+ 608              	.L46:
+ 181:Core/Src/usart.c **** 		UART3Tx_Buffer[out_index] = Tx_Buffer[local_index];
+ 609              		.loc 1 181 3 is_stmt 1 view .LVU141
+ 610              		.loc 1 181 40 is_stmt 0 view .LVU142
+ 611 0004 094A     		ldr	r2, .L47
+ 612 0006 D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 613              		.loc 1 181 29 view .LVU143
+ 614 0008 094A     		ldr	r2, .L47+4
+ 615 000a 5054     		strb	r0, [r2, r1]
+ 182:Core/Src/usart.c **** 		out_index++;
+ 616              		.loc 1 182 3 is_stmt 1 view .LVU144
+ 617              		.loc 1 182 12 is_stmt 0 view .LVU145
+ 618 000c 0131     		adds	r1, r1, #1
+ 619              	.LVL33:
+ 183:Core/Src/usart.c **** 		local_index++;
+ 620              		.loc 1 183 3 is_stmt 1 view .LVU146
+ 621              		.loc 1 183 14 is_stmt 0 view .LVU147
+ 622 000e 0133     		adds	r3, r3, #1
+ 623 0010 084A     		ldr	r2, .L47+8
+ 624 0012 1360     		str	r3, [r2]
+ 184:Core/Src/usart.c **** 		local_index &= ~(1<<7);
+ 625              		.loc 1 184 3 is_stmt 1 view .LVU148
+ 626              		.loc 1 184 15 is_stmt 0 view .LVU149
+ 627 0014 23F08003 		bic	r3, r3, #128
+ 628 0018 1360     		str	r3, [r2]
+ 629              	.LVL34:
+ 630              	.L45:
+ 180:Core/Src/usart.c **** 		UART3Tx_Buffer[out_index] = Tx_Buffer[local_index];
+ 631              		.loc 1 180 8 is_stmt 1 view .LVU150
+ 180:Core/Src/usart.c **** 		UART3Tx_Buffer[out_index] = Tx_Buffer[local_index];
+ 632              		.loc 1 180 21 is_stmt 0 view .LVU151
+ 633 001a 074B     		ldr	r3, .L47+12
+ 634 001c 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 635 001e D2B2     		uxtb	r2, r2
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 16
+
+
+ 636 0020 044B     		ldr	r3, .L47+8
+ 637 0022 1B68     		ldr	r3, [r3]
+ 180:Core/Src/usart.c **** 		UART3Tx_Buffer[out_index] = Tx_Buffer[local_index];
+ 638              		.loc 1 180 8 view .LVU152
+ 639 0024 9A42     		cmp	r2, r3
+ 640 0026 EDD1     		bne	.L46
+ 185:Core/Src/usart.c **** 		//receive_flag = 1;
+ 186:Core/Src/usart.c **** 	}
+ 187:Core/Src/usart.c **** 	//Rx_Buffer[out_index] = '\0';
+ 188:Core/Src/usart.c **** }
+ 641              		.loc 1 188 1 view .LVU153
+ 642 0028 7047     		bx	lr
+ 643              	.L48:
+ 644 002a 00BF     		.align	2
+ 645              	.L47:
+ 646 002c 00000000 		.word	.LANCHOR8
+ 647 0030 00000000 		.word	.LANCHOR4
+ 648 0034 00000000 		.word	.LANCHOR9
+ 649 0038 00000000 		.word	.LANCHOR10
+ 650              		.cfi_endproc
+ 651              	.LFE152:
+ 653              		.section	.text.fputc,"ax",%progbits
+ 654              		.align	1
+ 655              		.global	fputc
+ 656              		.syntax unified
+ 657              		.thumb
+ 658              		.thumb_func
+ 659              		.fpu fpv5-d16
+ 661              	fputc:
+ 662              	.LVL35:
+ 663              	.LFB153:
+ 189:Core/Src/usart.c **** 
+ 190:Core/Src/usart.c **** //redefining stdout
+ 191:Core/Src/usart.c **** int fputc(int ch, FILE *f) {
+ 664              		.loc 1 191 28 is_stmt 1 view -0
+ 665              		.cfi_startproc
+ 666              		@ args = 0, pretend = 0, frame = 8
+ 667              		@ frame_needed = 0, uses_anonymous_args = 0
+ 668              		.loc 1 191 28 is_stmt 0 view .LVU155
+ 669 0000 00B5     		push	{lr}
+ 670              	.LCFI10:
+ 671              		.cfi_def_cfa_offset 4
+ 672              		.cfi_offset 14, -4
+ 673 0002 83B0     		sub	sp, sp, #12
+ 674              	.LCFI11:
+ 675              		.cfi_def_cfa_offset 16
+ 676 0004 0190     		str	r0, [sp, #4]
+ 192:Core/Src/usart.c **** 	HAL_UART_Transmit(&huart3, (uint8_t*)&ch, 1, 100); //aqui ñ é usada a interrupção para Tx
+ 677              		.loc 1 192 2 is_stmt 1 view .LVU156
+ 678 0006 6423     		movs	r3, #100
+ 679 0008 0122     		movs	r2, #1
+ 680 000a 01A9     		add	r1, sp, #4
+ 681              	.LVL36:
+ 682              		.loc 1 192 2 is_stmt 0 view .LVU157
+ 683 000c 0348     		ldr	r0, .L51
+ 684              	.LVL37:
+ 685              		.loc 1 192 2 view .LVU158
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 17
+
+
+ 686 000e FFF7FEFF 		bl	HAL_UART_Transmit
+ 687              	.LVL38:
+ 193:Core/Src/usart.c **** 	return ch;
+ 688              		.loc 1 193 2 is_stmt 1 view .LVU159
+ 194:Core/Src/usart.c **** }
+ 689              		.loc 1 194 1 is_stmt 0 view .LVU160
+ 690 0012 0198     		ldr	r0, [sp, #4]
+ 691 0014 03B0     		add	sp, sp, #12
+ 692              	.LCFI12:
+ 693              		.cfi_def_cfa_offset 4
+ 694              		@ sp needed
+ 695 0016 5DF804FB 		ldr	pc, [sp], #4
+ 696              	.L52:
+ 697 001a 00BF     		.align	2
+ 698              	.L51:
+ 699 001c 00000000 		.word	.LANCHOR0
+ 700              		.cfi_endproc
+ 701              	.LFE153:
+ 703              		.global	huart3
+ 704              		.global	Tx_index
+ 705              		.global	Rx_index
+ 706              		.global	UART3Tx_index
+ 707              		.global	UART3Rx_index
+ 708              		.global	transmit_flag
+ 709              		.global	receive_flag
+ 710              		.global	Tx_Buffer
+ 711              		.global	Rx_Buffer
+ 712              		.global	UART3Tx_Buffer
+ 713              		.global	UART3Rx_Buffer
+ 714              		.section	.bss.Rx_Buffer,"aw",%nobits
+ 715              		.align	2
+ 716              		.set	.LANCHOR5,. + 0
+ 719              	Rx_Buffer:
+ 720 0000 00000000 		.space	128
+ 720      00000000 
+ 720      00000000 
+ 720      00000000 
+ 720      00000000 
+ 721              		.section	.bss.Rx_index,"aw",%nobits
+ 724              	Rx_index:
+ 725 0000 00       		.space	1
+ 726              		.section	.bss.Tx_Buffer,"aw",%nobits
+ 727              		.align	2
+ 728              		.set	.LANCHOR8,. + 0
+ 731              	Tx_Buffer:
+ 732 0000 00000000 		.space	128
+ 732      00000000 
+ 732      00000000 
+ 732      00000000 
+ 732      00000000 
+ 733              		.section	.bss.Tx_index,"aw",%nobits
+ 734              		.set	.LANCHOR10,. + 0
+ 737              	Tx_index:
+ 738 0000 00       		.space	1
+ 739              		.section	.bss.UART3Rx_Buffer,"aw",%nobits
+ 740              		.align	2
+ 741              		.set	.LANCHOR2,. + 0
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 18
+
+
+ 744              	UART3Rx_Buffer:
+ 745 0000 00000000 		.space	128
+ 745      00000000 
+ 745      00000000 
+ 745      00000000 
+ 745      00000000 
+ 746              		.section	.bss.UART3Rx_index,"aw",%nobits
+ 747              		.set	.LANCHOR1,. + 0
+ 750              	UART3Rx_index:
+ 751 0000 00       		.space	1
+ 752              		.section	.bss.UART3Tx_Buffer,"aw",%nobits
+ 753              		.align	2
+ 754              		.set	.LANCHOR4,. + 0
+ 757              	UART3Tx_Buffer:
+ 758 0000 00000000 		.space	128
+ 758      00000000 
+ 758      00000000 
+ 758      00000000 
+ 758      00000000 
+ 759              		.section	.bss.UART3Tx_index,"aw",%nobits
+ 760              		.set	.LANCHOR3,. + 0
+ 763              	UART3Tx_index:
+ 764 0000 00       		.space	1
+ 765              		.section	.bss.huart3,"aw",%nobits
+ 766              		.align	2
+ 767              		.set	.LANCHOR0,. + 0
+ 770              	huart3:
+ 771 0000 00000000 		.space	132
+ 771      00000000 
+ 771      00000000 
+ 771      00000000 
+ 771      00000000 
+ 772              		.section	.bss.local_index.0,"aw",%nobits
+ 773              		.align	2
+ 774              		.set	.LANCHOR9,. + 0
+ 777              	local_index.0:
+ 778 0000 00000000 		.space	4
+ 779              		.section	.bss.local_index.1,"aw",%nobits
+ 780              		.align	2
+ 781              		.set	.LANCHOR6,. + 0
+ 784              	local_index.1:
+ 785 0000 00000000 		.space	4
+ 786              		.section	.bss.receive_flag,"aw",%nobits
+ 787              		.align	2
+ 788              		.set	.LANCHOR7,. + 0
+ 791              	receive_flag:
+ 792 0000 00000000 		.space	4
+ 793              		.section	.bss.transmit_flag,"aw",%nobits
+ 794              		.align	2
+ 797              	transmit_flag:
+ 798 0000 00000000 		.space	4
+ 799              		.text
+ 800              	.Letext0:
+ 801              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2020-q4-major\\arm-none-eabi\\inc
+ 802              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2020-q4-major\\arm-none-eabi\\inc
+ 803              		.file 4 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h"
+ 804              		.file 5 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h"
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 19
+
+
+ 805              		.file 6 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio.h"
+ 806              		.file 7 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma.h"
+ 807              		.file 8 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h"
+ 808              		.file 9 "Core/Inc/usart.h"
+ 809              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2020-q4-major\\lib\\gcc\\arm-non
+ 810              		.file 11 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2020-q4-major\\arm-none-eabi\\in
+ 811              		.file 12 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2020-q4-major\\arm-none-eabi\\in
+ 812              		.file 13 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2020-q4-major\\arm-none-eabi\\in
+ 813              		.file 14 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2020-q4-major\\arm-none-eabi\\in
+ 814              		.file 15 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h"
+ 815              		.file 16 "Core/Inc/main.h"
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 20
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 usart.c
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:17     .text.MX_USART3_UART_Init:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:25     .text.MX_USART3_UART_Init:00000000 MX_USART3_UART_Init
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:90     .text.MX_USART3_UART_Init:00000030 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:96     .text.HAL_UART_MspInit:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:103    .text.HAL_UART_MspInit:00000000 HAL_UART_MspInit
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:216    .text.HAL_UART_MspInit:00000074 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:222    .text.HAL_UART_MspDeInit:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:229    .text.HAL_UART_MspDeInit:00000000 HAL_UART_MspDeInit
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:276    .text.HAL_UART_MspDeInit:00000028 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:283    .text.init_UART3Receive:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:290    .text.init_UART3Receive:00000000 init_UART3Receive
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:317    .text.init_UART3Receive:00000014 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:324    .text.init_UART3Transmit:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:331    .text.init_UART3Transmit:00000000 init_UART3Transmit
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:358    .text.init_UART3Transmit:00000014 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:365    .text.HAL_UART_RxCpltCallback:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:372    .text.HAL_UART_RxCpltCallback:00000000 HAL_UART_RxCpltCallback
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:427    .text.HAL_UART_RxCpltCallback:00000030 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:435    .text.HAL_UART_TxCpltCallback:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:442    .text.HAL_UART_TxCpltCallback:00000000 HAL_UART_TxCpltCallback
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:497    .text.HAL_UART_TxCpltCallback:00000030 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:505    .text.newMessage:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:512    .text.newMessage:00000000 newMessage
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:576    .text.newMessage:00000038 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:585    .text.transmitMessage:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:592    .text.transmitMessage:00000000 transmitMessage
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:646    .text.transmitMessage:0000002c $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:654    .text.fputc:00000000 $t
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:661    .text.fputc:00000000 fputc
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:699    .text.fputc:0000001c $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:770    .bss.huart3:00000000 huart3
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:737    .bss.Tx_index:00000000 Tx_index
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:724    .bss.Rx_index:00000000 Rx_index
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:763    .bss.UART3Tx_index:00000000 UART3Tx_index
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:750    .bss.UART3Rx_index:00000000 UART3Rx_index
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:797    .bss.transmit_flag:00000000 transmit_flag
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:791    .bss.receive_flag:00000000 receive_flag
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:731    .bss.Tx_Buffer:00000000 Tx_Buffer
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:719    .bss.Rx_Buffer:00000000 Rx_Buffer
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:757    .bss.UART3Tx_Buffer:00000000 UART3Tx_Buffer
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:744    .bss.UART3Rx_Buffer:00000000 UART3Rx_Buffer
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:715    .bss.Rx_Buffer:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:725    .bss.Rx_index:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:727    .bss.Tx_Buffer:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:738    .bss.Tx_index:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:740    .bss.UART3Rx_Buffer:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:751    .bss.UART3Rx_index:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:753    .bss.UART3Tx_Buffer:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:764    .bss.UART3Tx_index:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:766    .bss.huart3:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:773    .bss.local_index.0:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:777    .bss.local_index.0:00000000 local_index.0
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:780    .bss.local_index.1:00000000 $d
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:784    .bss.local_index.1:00000000 local_index.1
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:787    .bss.receive_flag:00000000 $d
+ARM GAS  C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s 			page 21
+
+
+C:\Users\drede\AppData\Local\Temp\ccm0EcJQ.s:794    .bss.transmit_flag:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Init
+Error_Handler
+HAL_GPIO_Init
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+HAL_GPIO_DeInit
+HAL_NVIC_DisableIRQ
+HAL_UART_Receive_IT
+HAL_UART_Transmit_IT
+HAL_UART_Transmit
